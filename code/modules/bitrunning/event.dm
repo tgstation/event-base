@@ -30,7 +30,7 @@
 /datum/round_event_control/bitrunning_glitch/proc/validate_servers()
 	active_servers.Cut()
 	for(var/obj/machinery/quantum_server/server in SSmachines.get_machines_by_type(/obj/machinery/quantum_server))
-		if(server.validate_mutation_candidates())
+		if(server.validate_mutation_candidates() && server.generated_domain.difficulty != BITRUNNER_DIFFICULTY_NONE)
 			active_servers.Add(WEAKREF(server))
 
 	return length(active_servers) > 0
@@ -61,7 +61,7 @@
 	var/total = 0
 	for(var/datum/weakref/server_ref in cyber_control.active_servers)
 		var/obj/machinery/quantum_server/server = server_ref?.resolve()
-		if(isnull(server))
+		if(isnull(server) || QDELETED(server))
 			continue
 
 		total += length(server.mutation_candidate_refs)
@@ -89,6 +89,10 @@
 	if(!unlucky_server.validate_mutation_candidates())
 		return WAITING_FOR_SOMETHING
 
-	spawned_mobs = unlucky_server.setup_glitch(forced_role)
+	var/mob/spawned = unlucky_server.setup_glitch(forced_role)
+	if(isnull(spawned))
+		return  WAITING_FOR_SOMETHING
+
+	spawned_mobs += spawned
 
 	return SUCCESSFUL_SPAWN

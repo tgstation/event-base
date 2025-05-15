@@ -1,4 +1,3 @@
-import { useBackend } from '../backend';
 import {
   BlockQuote,
   Box,
@@ -9,8 +8,10 @@ import {
   Section,
   Stack,
   TextArea,
-} from '../components';
-import { formatMoney } from '../format';
+} from 'tgui-core/components';
+import { formatMoney } from 'tgui-core/format';
+
+import { useBackend } from '../backend';
 import { Window } from '../layouts';
 import { UserDetails } from './Vending';
 
@@ -160,12 +161,10 @@ export const BountyBoardContent = (props) => {
           <Collapsible title="New Bounty" width="220px" color="green">
             <Section>
               <TextArea
-                fluid
+                expensive
                 height="150px"
                 width="200px"
-                backgroundColor="black"
-                textColor="white"
-                onChange={(e, value) =>
+                onChange={(value) =>
                   act('bountyText', {
                     bountytext: value,
                   })

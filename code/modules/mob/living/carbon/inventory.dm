@@ -1,3 +1,46 @@
+/// Returns a list of slots that are *visibly* covered by clothing and thus cannot be seen by others
+/mob/living/carbon/proc/check_obscured_slots()
+	var/hidden_slots = NONE
+
+	for(var/obj/item/equipped_item in get_equipped_items())
+		hidden_slots |= equipped_item.flags_inv
+
+	return hidden_slots_to_inventory_slots(hidden_slots)
+
+/// Returns a list of slots that are protected by other clothing, but could possibly be seen by others, via transparent visors and similar stuff
+/mob/living/carbon/proc/check_covered_slots()
+	var/hidden_slots = NONE
+
+	for(var/obj/item/equipped_item in get_equipped_items())
+		hidden_slots |= equipped_item.flags_inv | equipped_item.transparent_protection
+
+	return hidden_slots_to_inventory_slots(hidden_slots)
+
+/// Convers HIDEX to ITEM_SLOT_X, should be phased out in favor of using latter everywhere later
+/proc/hidden_slots_to_inventory_slots(hidden_slots)
+	var/obscured = NONE
+	if(hidden_slots & HIDENECK)
+		obscured |= ITEM_SLOT_NECK
+	if(hidden_slots & HIDEMASK)
+		obscured |= ITEM_SLOT_MASK
+	if(hidden_slots & HIDEBELT)
+		obscured |= ITEM_SLOT_BELT
+	if(hidden_slots & HIDEEYES)
+		obscured |= ITEM_SLOT_EYES
+	if(hidden_slots & HIDEEARS)
+		obscured |= ITEM_SLOT_EARS
+	if(hidden_slots & HIDEGLOVES)
+		obscured |= ITEM_SLOT_GLOVES
+	if(hidden_slots & HIDEJUMPSUIT)
+		obscured |= ITEM_SLOT_ICLOTHING
+	if(hidden_slots & HIDESHOES)
+		obscured |= ITEM_SLOT_FEET
+	if(hidden_slots & HIDESUITSTORAGE)
+		obscured |= ITEM_SLOT_SUITSTORE
+	if(hidden_slots & HIDEHEADGEAR)
+		obscured |= ITEM_SLOT_HEAD
+	return obscured
+
 /mob/living/carbon/get_item_by_slot(slot_id)
 	switch(slot_id)
 		if(ITEM_SLOT_BACK)
@@ -18,9 +61,6 @@
 /mob/living/carbon/get_slot_by_item(obj/item/looking_for)
 	if(looking_for == back)
 		return ITEM_SLOT_BACK
-
-	if(back && (looking_for in back))
-		return ITEM_SLOT_BACKPACK
 
 	if(looking_for == wear_mask)
 		return ITEM_SLOT_MASK
@@ -55,7 +95,6 @@
 		ITEM_SLOT_BACK,
 		ITEM_SLOT_NECK,
 		ITEM_SLOT_HANDS,
-		ITEM_SLOT_BACKPACK,
 		ITEM_SLOT_SUITSTORE,
 		ITEM_SLOT_HANDCUFFED,
 		ITEM_SLOT_LEGCUFFED,
@@ -73,9 +112,27 @@
 	return visible_items
 
 /mob/living/carbon/proc/equip_in_one_of_slots(obj/item/equipping, list/slots, qdel_on_fail = TRUE, indirect_action = FALSE)
+	var/static/list/equip_slots = list(
+		LOCATION_LPOCKET,
+		LOCATION_RPOCKET,
+		LOCATION_HANDS,
+		LOCATION_GLOVES,
+		LOCATION_EYES,
+		LOCATION_HEAD,
+		LOCATION_NECK,
+		LOCATION_ID,
+	)
+	var/static/list/storage_slots = list(
+		LOCATION_BACKPACK,
+	)
+
 	for(var/slot in slots)
-		if(equip_to_slot_if_possible(equipping, slots[slot], disable_warning = TRUE, indirect_action = indirect_action))
-			return slot
+		if(equip_slots[slot])
+			if(equip_to_slot_if_possible(equipping, equip_slots[slot], disable_warning = TRUE, indirect_action = indirect_action))
+				return slot
+		else if (storage_slots[slot])
+			if(equip_to_storage(equipping, storage_slots[slot], indirect_action = indirect_action))
+				return slot
 	if(qdel_on_fail)
 		qdel(equipping)
 	return null
@@ -84,6 +141,7 @@
 /mob/living/carbon/equip_to_slot(obj/item/equipping, slot, initial = FALSE, redraw_mob = FALSE, indirect_action = FALSE)
 	if(!slot)
 		return
+
 	if(!istype(equipping))
 		return
 
@@ -97,10 +155,12 @@
 	equipping.screen_loc = null
 	if(client)
 		client.screen -= equipping
+
 	if(observers?.len)
 		for(var/mob/dead/observe as anything in observers)
 			if(observe.client)
 				observe.client.screen -= equipping
+
 	equipping.forceMove(src)
 	SET_PLANE_EXPLICIT(equipping, ABOVE_HUD_PLANE, src)
 	equipping.appearance_flags |= NO_CLIENT_COLOR
@@ -121,7 +181,6 @@
 			if(head)
 				return
 			head = equipping
-			SEND_SIGNAL(src, COMSIG_CARBON_EQUIP_HAT, equipping)
 			update_worn_head()
 		if(ITEM_SLOT_NECK)
 			if(wear_neck)
@@ -137,9 +196,6 @@
 		if(ITEM_SLOT_HANDS)
 			put_in_hands(equipping)
 			update_held_items()
-		if(ITEM_SLOT_BACKPACK)
-			if(!back || !back.atom_storage?.attempt_insert(equipping, src, override = TRUE, force = indirect_action ? STORAGE_SOFT_LOCKED : STORAGE_NOT_LOCKED))
-				not_handled = TRUE
 		else
 			not_handled = TRUE
 
@@ -151,12 +207,12 @@
 
 	return not_handled
 
+/mob/living/carbon/has_equipped(obj/item/item, slot, initial)
+	. = ..()
+	hud_used?.update_locked_slots()
+
 /mob/living/carbon/get_equipped_speed_mod_items()
 	return ..() + get_equipped_items()
-
-/// This proc is called after an item has been successfully handled and equipped to a slot.
-/mob/living/carbon/proc/has_equipped(obj/item/item, slot, initial = FALSE)
-	return item.on_equipped(src, slot, initial)
 
 /mob/living/carbon/doUnEquip(obj/item/I, force, newloc, no_move, invdrop = TRUE, silent = FALSE)
 	. = ..() //Sets the default return value to what the parent returns.
@@ -166,7 +222,6 @@
 	var/not_handled = FALSE //if we actually unequipped an item, this is because we dont want to run this proc twice, once for carbons and once for humans
 	if(I == head)
 		head = null
-		SEND_SIGNAL(src, COMSIG_CARBON_UNEQUIP_HAT, I, force, newloc, no_move, invdrop, silent)
 		if(!QDELETED(src))
 			update_worn_head()
 	else if(I == back)
@@ -205,6 +260,7 @@
 
 	update_equipment_speed_mods()
 	update_obscured_slots(I.flags_inv)
+	hud_used?.update_locked_slots()
 
 /// Returns TRUE if an air tank compatible helmet is equipped.
 /mob/living/carbon/proc/can_breathe_helmet()
@@ -280,9 +336,11 @@
 		internal = null
 	target_tank.after_internals_closed(src)
 	update_mob_action_buttons()
+	//To make sure it stops at a timely manner when you turn off internals
+	breathing_loop.stop()
 	return TRUE
 
-/// Close the the currently open external (that's EX-ternal) air tank. Returns TREUE if successful.
+/// Close the the currently open external (that's EX-ternal) air tank. Returns TRUE if successful.
 /mob/living/carbon/proc/close_externals()
 	return close_internals(TRUE)
 
@@ -405,6 +463,7 @@
 	if(offered_item.on_offered(src)) // see if the item interrupts with its own behavior
 		return
 
+	balloon_alert_to_viewers("offers something")
 	visible_message(span_notice("[src] is offering [offered ? "[offered] " : ""][offered_item]."), \
 					span_notice("You offer [offered ? "[offered] " : ""][offered_item]."), null, 2)
 
@@ -443,6 +502,7 @@
 
 	visible_message(span_notice("[src] takes [I] from [offerer]."), \
 					span_notice("You take [I] from [offerer]."))
+	I.do_pickup_animation(src, offerer)
 	put_in_hands(I)
 
 ///Returns a list of all body_zones covered by clothing
@@ -473,13 +533,15 @@
 /// in their hands would be a dead giveaway that they are an antagonist.
 /// Returns the human readable name of where it placed the item, or null otherwise.
 /mob/living/carbon/proc/equip_conspicuous_item(obj/item/item, delete_item_if_failed = TRUE)
-	var/list/slots = list (
-		"backpack" = ITEM_SLOT_BACKPACK,
+	var/static/list/pockets = list(
 		"left pocket" = ITEM_SLOT_LPOCKET,
 		"right pocket" = ITEM_SLOT_RPOCKET
 	)
 
-	var/placed_in = equip_in_one_of_slots(item, slots, indirect_action = TRUE)
+	var/placed_in = equip_in_one_of_slots(item, pockets, indirect_action = TRUE)
+
+	if (!placed_in)
+		placed_in = equip_to_storage(item, ITEM_SLOT_BACK, indirect_action = TRUE)
 
 	if (isnull(placed_in) && delete_item_if_failed)
 		qdel(item)

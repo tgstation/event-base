@@ -109,7 +109,7 @@
 /**
  * Merges two explosive implants together, adding the stats of the latter to the former before qdeling the latter implant.
  * kept_implant = the implant that is kept
- * stat_implant = the implant which has it's stats added to kept_implant, before being deleted.
+ * stat_implant = the implant which has its stats added to kept_implant, before being deleted.
  */
 /obj/item/implant/explosive/proc/merge_implants(obj/item/implant/explosive/kept_implant, obj/item/implant/explosive/stat_implant)
 	kept_implant.explosion_devastate += stat_implant.explosion_devastate
@@ -129,7 +129,7 @@
 		imp_in.visible_message(span_warning("[imp_in] starts beeping ominously!"))
 		if(notify_ghosts)
 			notify_ghosts(
-				"[imp_in] is about to detonate their explosive implant!",
+				"[imp_in.real_name] is about to detonate their explosive implant!",
 				source = src,
 				header = "Tick Tick Tick...",
 				notify_flags = NOTIFY_CATEGORY_NOFLASH,

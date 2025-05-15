@@ -3,6 +3,7 @@
 	desc = "A circuit multitool. Used to mark entities which can then be uploaded to components by pressing the upload button on a port. \
 	Acts as a normal multitool otherwise. Use in hand to clear marked entity so that you can mark another entity."
 	icon_state = "multitool_circuit"
+	apc_scanner = FALSE // would conflict with mark clearing
 
 	/// The marked atom of this multitool
 	var/atom/marked_atom
@@ -26,8 +27,8 @@
 	clear_marked_atom()
 	return TRUE
 
-/obj/item/multitool/circuit/melee_attack_chain(mob/user, atom/target, params)
-	var/is_right_clicking = LAZYACCESS(params2list(params), RIGHT_CLICK)
+/obj/item/multitool/circuit/melee_attack_chain(mob/user, atom/target, list/modifiers)
+	var/is_right_clicking = LAZYACCESS(modifiers, RIGHT_CLICK)
 
 	if(marked_atom || !user.Adjacent(target) || is_right_clicking)
 		return ..()
@@ -44,7 +45,7 @@
 	RegisterSignal(marked_atom, COMSIG_QDELETING, PROC_REF(cleanup_marked_atom))
 	update_icon()
 	flick("multitool_circuit_flick", src)
-	playsound(src.loc, 'sound/misc/compiler-stage2.ogg', 30, TRUE)
+	playsound(src.loc, 'sound/machines/compiler/compiler-stage2.ogg', 30, TRUE)
 	return TRUE
 
 /// Allow users to mark items equipped by the target that are visible.

@@ -83,6 +83,8 @@
 
 	/// A list, or null, of templates that the ruleset depends on to function correctly
 	var/list/ruleset_lazy_templates
+	/// In what categories is this ruleset allowed to run? Used by station traits
+	var/ruleset_category = RULESET_CATEGORY_DEFAULT
 
 /datum/dynamic_ruleset/New()
 	// Rulesets can be instantiated more than once, such as when an admin clicks
@@ -216,7 +218,7 @@
 /// This one only handles refunding the threat, override in ruleset to clean up the rest.
 /datum/dynamic_ruleset/proc/clean_up()
 	SSdynamic.refund_threat(cost + (scaled_times * scaling_cost))
-	SSdynamic.threat_log += "[worldtime2text()]: [ruletype] [name] refunded [cost + (scaled_times * scaling_cost)]. Failed to execute."
+	SSdynamic.threat_log += "[gameTimestamp()]: [ruletype] [name] refunded [cost + (scaled_times * scaling_cost)]. Failed to execute."
 
 /// Gets weight of the ruleset
 /// Note that this decreases weight if repeatable is TRUE and repeatable_weight_decrease is higher than 0
@@ -281,7 +283,7 @@
 		if(length(exclusive_roles))
 			var/exclusive_candidate = FALSE
 			for(var/role in exclusive_roles)
-				var/datum/job/job = SSjob.GetJob(role)
+				var/datum/job/job = SSjob.get_job(role)
 
 				if((role in candidate_client.prefs.job_preferences) && SSjob.check_job_eligibility(candidate_player, job, "Dynamic Roundstart TC", add_job_to_log = TRUE) == JOB_AVAILABLE)
 					exclusive_candidate = TRUE
