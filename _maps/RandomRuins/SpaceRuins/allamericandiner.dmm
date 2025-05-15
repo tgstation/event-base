@@ -286,7 +286,6 @@
 /area/ruin/space/has_grav/allamericandiner)
 "ob" = (
 /obj/effect/spawner/structure/window,
-/obj/structure/grille,
 /turf/open/floor/plating,
 /area/ruin/space/has_grav/allamericandiner)
 "og" = (
@@ -513,7 +512,7 @@
 "yE" = (
 /obj/structure/table,
 /obj/machinery/cell_charger,
-/obj/item/stock_parts/cell/high,
+/obj/item/stock_parts/power_store/cell/high,
 /obj/machinery/power/terminal{
 	dir = 4
 	},

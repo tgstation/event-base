@@ -1,14 +1,20 @@
-import { BooleanLike } from 'common/react';
+import {
+  Button,
+  Input,
+  LabeledList,
+  Section,
+  Stack,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
-import { Button, Input, LabeledList, Section, Stack } from '../components';
 import { Window } from '../layouts';
 import { AccessConfig, Region } from './common/AccessConfig';
 
 type Data = {
   accesses: string[];
   oneAccess: BooleanLike;
-  passedCycleId: number;
+  passedCycleId: string;
   passedName: string;
   regions: Region[];
   shell: BooleanLike;
@@ -112,7 +118,8 @@ export function AirLockMainSection(props) {
                 fluid
                 maxLength={30}
                 value={passedName}
-                onChange={(e, value) =>
+                expensive
+                onChange={(value) =>
                   act('passedName', {
                     passedName: value,
                   })
@@ -124,7 +131,8 @@ export function AirLockMainSection(props) {
                 fluid
                 maxLength={30}
                 value={passedCycleId}
-                onChange={(e, value) =>
+                expensive
+                onChange={(value) =>
                   act('passedCycleId', {
                     passedCycleId: value,
                   })

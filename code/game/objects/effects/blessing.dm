@@ -12,7 +12,7 @@
 	for(var/obj/effect/blessing/B in loc)
 		if(B != src)
 			return INITIALIZE_HINT_QDEL
-		var/image/I = image(icon = 'icons/effects/effects.dmi', icon_state = "blessed", layer = ABOVE_OPEN_TURF_LAYER, loc = src)
+		var/image/I = image(icon = 'icons/effects/effects.dmi', icon_state = "blessed", layer = ABOVE_NORMAL_TURF_LAYER, loc = src)
 		I.alpha = 64
 		I.appearance_flags = RESET_ALPHA
 		add_alt_appearance(/datum/atom_hud/alternate_appearance/basic/blessed_aware, "blessing", I)
@@ -22,8 +22,8 @@
 	UnregisterSignal(loc, COMSIG_ATOM_INTERCEPT_TELEPORTING)
 	return ..()
 
-/obj/effect/blessing/proc/block_cult_teleport(datum/source, channel, turf/origin, turf/destination)
+/obj/effect/blessing/proc/block_cult_teleport(datum/source, channel, turf/origin)
 	SIGNAL_HANDLER
 
 	if(channel == TELEPORT_CHANNEL_CULT)
-		return COMPONENT_BLOCK_TELEPORT
+		return TRUE

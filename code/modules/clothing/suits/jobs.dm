@@ -26,6 +26,7 @@
 		/obj/item/secateurs,
 		/obj/item/seeds,
 		/obj/item/storage/bag/plants,
+		/obj/item/tank/internals/emergency_oxygen,
 	)
 	species_exception = list(/datum/species/golem)
 	armor_type = /datum/armor/suit_apron
@@ -52,6 +53,10 @@
 	greyscale_colors = "#313c6e"
 	flags_1 = IS_PLAYER_COLORABLE_1
 
+/obj/item/clothing/suit/apron/overalls/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/adjust_fishing_difficulty, -4)
+
 //Captain
 /obj/item/clothing/suit/jacket/capjacket
 	name = "captain's parade jacket"
@@ -61,7 +66,7 @@
 	body_parts_covered = CHEST|GROIN|ARMS
 	allowed = list(
 		/obj/item/assembly/flash/handheld,
-		/obj/item/clothing/mask/cigarette,
+		/obj/item/cigarette,
 		/obj/item/disk,
 		/obj/item/lighter,
 		/obj/item/melee,
@@ -110,16 +115,14 @@
 	)
 
 //Detective
-/obj/item/clothing/suit/jacket/det_suit
-	name = "trenchcoat"
+/obj/item/clothing/suit/toggle/jacket/det_trench
+	name = "brown trenchcoat"
 	desc = "A 18th-century multi-purpose trenchcoat. Someone who wears this means serious business."
-	icon_state = "detective"
+	icon_state = "det_trenchcoat"
 	inhand_icon_state = "det_suit"
 	blood_overlay_type = "coat"
-	body_parts_covered = CHEST|GROIN|ARMS
 	armor_type = /datum/armor/jacket_det_suit
-	cold_protection = CHEST|GROIN|ARMS
-	heat_protection = CHEST|GROIN|ARMS
+	flags_inv = HIDEBELT
 
 /datum/armor/jacket_det_suit
 	melee = 25
@@ -128,39 +131,41 @@
 	energy = 35
 	acid = 45
 
+/obj/item/clothing/suit/toggle/jacket/det_trench/Initialize(mapload)
+	. = ..()
+	allowed = GLOB.detective_vest_allowed
+
+/obj/item/clothing/suit/toggle/jacket/det_trench/noir
+	name = "noir trenchcoat"
+	desc = "A hard-boiled private investigator's dark trenchcoat."
+	icon_state = "noir_trenchcoat"
+	inhand_icon_state = null
+
+/obj/item/clothing/suit/jacket/det_suit
+	name = "brown blazer jacket"
+	desc = "A suit jacket perfect for dinner dates and criminal investigations."
+	icon_state = "det_blazer"
+	armor_type = /datum/armor/jacket_det_suit
+	inhand_icon_state = null
+
 /obj/item/clothing/suit/jacket/det_suit/Initialize(mapload)
 	. = ..()
 	allowed = GLOB.detective_vest_allowed
 
-/obj/item/clothing/suit/jacket/det_suit/dark
-	name = "noir trenchcoat"
-	desc = "A hard-boiled private investigator's dark trenchcoat."
-	icon_state = "noirdet"
-	inhand_icon_state = null
-
 /obj/item/clothing/suit/jacket/det_suit/noir
-	name = "noir suit coat"
-	desc = "A dapper private investigator's dark suit coat."
-	icon_state = "detsuit"
-	inhand_icon_state = null
-
-/obj/item/clothing/suit/jacket/det_suit/brown
-	name = "brown suit jacket"
-	desc = "A suit jacket perfect for dinner dates and criminal investigations."
-	icon_state = "detsuit_brown"
-	inhand_icon_state = null
+	name = "noir blazer jacket"
+	desc = "A dapper private investigator's dark suit jacket."
+	icon_state = "noir_blazer"
 
 /obj/item/clothing/suit/jacket/det_suit/kim
 	name = "aerostatic bomber jacket"
 	desc = "A jacket once worn by the revolutionary air brigades during the Antecentennial Revolution. There are quite a few pockets on the inside, mostly for storing notebooks and compasses."
 	icon_state = "aerostatic_bomber_jacket"
-	inhand_icon_state = null
 
 /obj/item/clothing/suit/jacket/det_suit/disco
 	name = "disco ass blazer"
 	desc = "Looks like someone skinned this blazer off some long extinct disco-animal. It has an enigmatic white rectangle on the back and the right sleeve."
 	icon_state = "jamrock_blazer"
-	inhand_icon_state = null
 
 //Engineering
 /obj/item/clothing/suit/hazardvest
@@ -180,6 +185,8 @@
 		/obj/item/tank/internals/plasmaman,
 		/obj/item/t_scanner,
 		/obj/item/gun/ballistic/rifle/boltaction/pipegun,
+		/obj/item/storage/bag/rebar_quiver,
+		/obj/item/gun/ballistic/rifle/rebarxbow,
 	)
 	resistance_flags = NONE
 	species_exception = list(/datum/species/golem)
@@ -188,6 +195,11 @@
 	. = ..()
 	if(!isinhands)
 		. += emissive_appearance(icon_file, "[icon_state]-emissive", src, alpha = src.alpha)
+
+/obj/item/clothing/suit/hazardvest/press // Variant used by the Curator
+	name = "press hazard vest"
+	desc = "A blue high-visibility vest used to distinguish <i>non-combatant</i> \"PRESS\" members, like if anyone cares."
+	icon_state = "hazard_press"
 
 //Lawyer
 /obj/item/clothing/suit/toggle/lawyer
@@ -223,6 +235,10 @@
 	blood_overlay_type = "coat"
 	body_parts_covered = CHEST|ARMS
 	allowed = list(
+		/obj/item/tank/internals/emergency_oxygen,
+		/obj/item/tank/internals/plasmaman,
+		/obj/item/boxcutter,
+		/obj/item/dest_tagger,
 		/obj/item/stamp,
 		/obj/item/storage/bag/mail,
 		/obj/item/universal_scanner,
@@ -232,7 +248,7 @@
 
 /obj/item/clothing/suit/jacket/quartermaster
 	name = "quartermaster's overcoat"
-	desc = "A luxury, brown double-breasted overcoat made from kangaroo skin. It's gold cuffs are linked and styled on the credits symbol. It makes you feel more important than you probably are."
+	desc = "A luxury, brown double-breasted overcoat made from kangaroo skin. Its gold cuffs are linked and styled on the credits symbol. It makes you feel more important than you probably are."
 	icon_state = "qm_coat"
 	blood_overlay_type = "coat"
 	body_parts_covered = CHEST|GROIN|LEGS|ARMS
@@ -338,6 +354,10 @@
 		/obj/item/tank/internals/emergency_oxygen,
 	)
 
+/obj/item/clothing/suit/apron/surgical/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/adjust_fishing_difficulty, -3) // FISH DOCTOR?!
+
 //Curator
 /obj/item/clothing/suit/jacket/curator
 	name = "treasure hunter's coat"
@@ -383,27 +403,6 @@
 	body_parts_covered = HEAD
 	flags_inv = HIDEHAIR|HIDEEARS
 
-// Research Director
-
-/obj/item/clothing/suit/jacket/research_director
-	name = "research director's coat"
-	desc = "A mix between a labcoat and just a regular coat. It's made out of a special anti-bacterial, anti-acidic, and anti-biohazardous synthetic fabric."
-	icon_state = "labcoat_rd"
-	armor_type = /datum/armor/jacket_research_director
-	body_parts_covered = CHEST|GROIN|ARMS
-
-/datum/armor/jacket_research_director
-	bio = 75
-	fire = 75
-	acid = 75
-
-/obj/item/clothing/suit/jacket/research_director/Initialize(mapload)
-	. = ..()
-	allowed += list(
-		/obj/item/storage/bag/xeno,
-		/obj/item/melee/baton/telescopic,
-	)
-
 // Atmos
 /obj/item/clothing/suit/atmos_overalls
 	name = "atmospherics overalls"
@@ -426,6 +425,9 @@
 		/obj/item/tank/internals/emergency_oxygen,
 		/obj/item/tank/internals/plasmaman,
 		/obj/item/extinguisher,
+		/obj/item/construction/rtd,
+		/obj/item/gun/ballistic/rifle/rebarxbow,
+		/obj/item/storage/bag/rebar_quiver,
 	)
 
 /datum/armor/atmos_overalls

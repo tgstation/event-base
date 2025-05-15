@@ -14,8 +14,8 @@
 	smoothing_groups = SMOOTH_GROUP_TURF_OPEN + SMOOTH_GROUP_OPEN_FLOOR
 	canSmoothWith = SMOOTH_GROUP_TURF_OPEN + SMOOTH_GROUP_OPEN_FLOOR
 
-	thermal_conductivity = 0.04
-	heat_capacity = 10000
+	thermal_conductivity = 0.02
+	heat_capacity = 20000
 	tiled_dirt = TRUE
 
 
@@ -121,34 +121,34 @@
 	W.update_appearance()
 	return W
 
-/turf/open/floor/attackby(obj/item/object, mob/living/user, params)
+/turf/open/floor/attackby(obj/item/object, mob/living/user, list/modifiers)
 	if(!object || !user)
 		return TRUE
 	. = ..()
 	if(.)
 		return .
 	if(overfloor_placed && istype(object, /obj/item/stack/tile))
-		try_replace_tile(object, user, params)
+		try_replace_tile(object, user, modifiers)
 		return TRUE
 	if(user.combat_mode && istype(object, /obj/item/stack/sheet))
 		var/obj/item/stack/sheet/sheets = object
-		return sheets.on_attack_floor(user, params)
+		return sheets.on_attack_floor(user, modifiers)
 	return FALSE
 
 /turf/open/floor/crowbar_act(mob/living/user, obj/item/I)
 	if(overfloor_placed && pry_tile(I, user))
 		return TRUE
 
-/turf/open/floor/proc/try_replace_tile(obj/item/stack/tile/T, mob/user, params)
+/turf/open/floor/proc/try_replace_tile(obj/item/stack/tile/T, mob/user, list/modifiers)
 	if(T.turf_type == type && T.turf_dir == dir)
 		return
-	var/obj/item/crowbar/CB = user.is_holding_item_of_type(/obj/item/crowbar)
+	var/obj/item/crowbar/CB = user.is_holding_tool_quality(TOOL_CROWBAR)
 	if(!CB)
 		return
 	var/turf/open/floor/plating/P = pry_tile(CB, user, TRUE)
 	if(!istype(P))
 		return
-	P.attackby(T, user, params)
+	P.attackby(T, user, modifiers)
 
 /turf/open/floor/proc/pry_tile(obj/item/I, mob/user, silent = FALSE)
 	I.play_tool_sound(src, 80)
@@ -175,7 +175,7 @@
 		return null
 	return new floor_tile(src)
 
-/turf/open/floor/singularity_pull(S, current_size)
+/turf/open/floor/singularity_pull(atom/singularity, current_size)
 	..()
 	var/sheer = FALSE
 	switch(current_size)
@@ -363,6 +363,12 @@
 			return TRUE
 	return FALSE
 
+/turf/open/floor/rust_turf()
+	if(HAS_TRAIT(src, TRAIT_RUSTY))
+		return
+	ChangeTurf(/turf/open/floor/plating)
+	return ..()
+
 /turf/open/floor/material
 	name = "floor"
 	icon_state = "materialfloor"
@@ -376,4 +382,4 @@
 	. = ..()
 	if(.)
 		var/obj/item/stack/tile = .
-		tile.set_mats_per_unit(custom_materials, 1)
+		tile.set_custom_materials(custom_materials)

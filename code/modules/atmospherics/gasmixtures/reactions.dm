@@ -171,7 +171,7 @@
 	name = "Plasma Combustion"
 	id = "plasmafire"
 	expands_hotspot = TRUE
-	desc = "Combustion of oxygen and plasma. Able to produce tritium or carbon dioxade and water vapor."
+	desc = "Combustion of oxygen and plasma. Able to produce tritium or carbon dioxide and water vapor."
 
 /datum/gas_reaction/plasmafire/init_reqs()
 	requirements = list(
@@ -328,7 +328,7 @@
 	SET_REACTION_RESULTS(burned_fuel)
 
 	var/turf/open/location
-	if(istype(holder, /datum/pipeline)) //Find the tile the reaction is occuring on, or a random part of the network if it's a pipenet.
+	if(istype(holder, /datum/pipeline)) //Find the tile the reaction is occurring on, or a random part of the network if it's a pipenet.
 		var/datum/pipeline/pipenet = holder
 		location = pick(pipenet.members)
 	else if(isatom(holder))
@@ -686,7 +686,7 @@
 	var/list/cached_gases = air.gases
 	var/temperature = air.temperature
 
-	//This reaction is agressively slow. like, a tenth of a mole per fire slow. Keep that in mind
+	//This reaction is aggressively slow. like, a tenth of a mole per fire slow. Keep that in mind
 	var/heat_efficiency = min(temperature / NITRIUM_DECOMPOSITION_TEMP_DIVISOR, cached_gases[/datum/gas/nitrium][MOLES])
 
 	if (heat_efficiency <= 0 || (cached_gases[/datum/gas/nitrium][MOLES] - heat_efficiency < 0)) //Shouldn't produce gas from nothing.
@@ -785,7 +785,8 @@
 	var/reduction_factor = clamp(cached_gases[/datum/gas/tritium][MOLES] / (cached_gases[/datum/gas/tritium][MOLES] + cached_gases[/datum/gas/bz][MOLES]), 0.001 , 1) //reduces trit consumption in presence of bz upward to 0.1% reduction
 	var/nob_formed = min((cached_gases[/datum/gas/nitrogen][MOLES] + cached_gases[/datum/gas/tritium][MOLES]) * 0.01, cached_gases[/datum/gas/tritium][MOLES] * INVERSE(5 * reduction_factor), cached_gases[/datum/gas/nitrogen][MOLES] * INVERSE(10))
 
-	if (nob_formed <= 0 || (cached_gases[/datum/gas/tritium][MOLES] - 5 * nob_formed * reduction_factor < 0) || (cached_gases[/datum/gas/nitrogen][MOLES] - 10 * nob_formed < 0))
+	//calling QUANTIZE on results to round very small floating point values.
+	if (QUANTIZE(nob_formed) <= 0 || (QUANTIZE(cached_gases[/datum/gas/tritium][MOLES] - 5 * nob_formed * reduction_factor) < 0) || (QUANTIZE(cached_gases[/datum/gas/nitrogen][MOLES] - 10 * nob_formed) < 0))
 		air.garbage_collect(arglist(asserted_gases))
 		return NO_REACTION
 
@@ -1091,7 +1092,7 @@
 	SET_REACTION_RESULTS(produced_amount)
 	var/turf/open/location
 	var/energy_released = produced_amount * PN_TRITIUM_CONVERSION_ENERGY
-	if(istype(holder,/datum/pipeline)) //Find the tile the reaction is occuring on, or a random part of the network if it's a pipenet.
+	if(istype(holder,/datum/pipeline)) //Find the tile the reaction is occurring on, or a random part of the network if it's a pipenet.
 		var/datum/pipeline/pipenet = holder
 		location = pick(pipenet.members)
 	else if(isatom(holder))
@@ -1143,7 +1144,7 @@
 	SET_REACTION_RESULTS(consumed_amount)
 	var/turf/open/location
 	var/energy_released = consumed_amount * PN_BZASE_ENERGY
-	if(istype(holder,/datum/pipeline)) //Find the tile the reaction is occuring on, or a random part of the network if it's a pipenet.
+	if(istype(holder,/datum/pipeline)) //Find the tile the reaction is occurring on, or a random part of the network if it's a pipenet.
 		var/datum/pipeline/pipenet = holder
 		location = pick(pipenet.members)
 	else if(isatom(holder))

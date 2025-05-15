@@ -18,9 +18,13 @@
 	icon_state = "saturnx_glob" //tell kryson to sprite two more variants in the future.
 	food_reagents = list(/datum/reagent/drug/saturnx = 10)
 
+/obj/item/food/drug/saturnx/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_CONTRABAND, INNATE_TRAIT)
+
 /obj/item/food/drug/moon_rock
 	name = "moon rock"
-	desc = "A small hard lump of kronkaine freebase.\nIt is said the average kronkaine addict causes as much criminal damage as four cat burglars, two arsonists and one rabid pit bull terrier combined."
+	desc = "A small hard lump of kronkaine freebase.\nIt is said the average kronkaine addict causes as much criminal damage as four cat burglars, two arsonists and one rabid pit bull terrier combined.\n\nNotorious in the medical community for causing dangerous interactions with purging meds!"
 	icon_state = "moon_rock1"
 	food_reagents = list(/datum/reagent/drug/kronkaine = 10)
 
@@ -28,6 +32,7 @@
 	. = ..()
 	icon_state = pick("moon_rock1", "moon_rock2", "moon_rock3")
 	AddElement(/datum/element/swabable, CELL_LINE_TABLE_MOONICORN, CELL_VIRUS_TABLE_GENERIC_MOB, 1, 5)
+	ADD_TRAIT(src, TRAIT_CONTRABAND, INNATE_TRAIT)
 
 /obj/item/reagent_containers/cup/blastoff_ampoule
 	name = "bLaSToFF ampoule" //stylized name
@@ -39,6 +44,8 @@
 	reagent_flags = TRANSPARENT
 	spillable = FALSE
 	list_reagents = list(/datum/reagent/drug/blastoff = 10)
+	reagent_consumption_method = INHALE
+	consumption_sound = 'sound/effects/spray2.ogg'
 
 /obj/item/reagent_containers/cup/blastoff_ampoule/update_icon_state()
 	. = ..()
@@ -57,7 +64,7 @@
 	playsound(src, 'sound/items/ampoule_snap.ogg', 40)
 	update_appearance()
 
-/obj/item/reagent_containers/cup/blastoff_ampoule/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+/obj/item/reagent_containers/cup/blastoff_ampoule/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum, do_splash = TRUE)
 	. = ..()
 	if(.)
 		return
@@ -67,6 +74,10 @@
 	playsound(src, SFX_SHATTER, 40, TRUE)
 	transfer_fingerprints_to(ampoule_shard)
 	spillable = TRUE
-	SplashReagents(hit_atom, TRUE)
+	SplashReagents(hit_atom, throwingdatum)
 	qdel(src)
 	hit_atom.Bumped(ampoule_shard)
+
+/obj/item/reagent_containers/cup/blastoff_ampoule/Initialize(mapload, vol)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_CONTRABAND, INNATE_TRAIT)

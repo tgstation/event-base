@@ -18,6 +18,7 @@
 	bubble_icon = "alien"
 	combat_mode = TRUE
 	faction = list(ROLE_ALIEN)
+	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 1, STAMINA = 0, OXY = 1)
 
 	// Going for a dark purple here
 	lighting_cutoff_red = 30
@@ -35,10 +36,10 @@
 	attack_verb_continuous = "slashes"
 	attack_verb_simple = "slash"
 
-	attack_sound = 'sound/weapons/bladeslice.ogg'
+	attack_sound = 'sound/items/weapons/bladeslice.ogg'
 	attack_vis_effect = ATTACK_EFFECT_CLAW
 	gold_core_spawnable = NO_SPAWN
-	death_sound = 'sound/voice/hiss6.ogg'
+	death_sound = 'sound/mobs/non-humanoids/hiss/hiss6.ogg'
 	death_message = "lets out a waning guttural screech, green blood bubbling from its maw..."
 
 	habitable_atmos = null
@@ -63,7 +64,7 @@
 	AddElement(/datum/element/footstep, footstep_type = FOOTSTEP_MOB_CLAW)
 
 /mob/living/basic/alien/get_butt_sprite()
-	return BUTT_SPRITE_XENOMORPH
+	return icon('icons/mob/butts.dmi', BUTT_SPRITE_XENOMORPH)
 
 ///Places alien weeds on the turf the mob is currently standing on.
 /mob/living/basic/alien/proc/place_weeds()
@@ -74,6 +75,9 @@
 	visible_message(span_alertalien("[src] plants some alien weeds!"))
 	new /obj/structure/alien/weeds/node(loc)
 
+/mob/living/basic/alien/create_splatter(splatter_dir)
+	new /obj/effect/temp_visual/dir_setting/bloodsplatter/xenosplatter(get_turf(src), splatter_dir)
+
 ///Lays an egg on the turf the mob is currently standing on.
 /mob/living/basic/alien/proc/lay_alien_egg()
 	if(!isturf(loc) || isspaceturf(loc))
@@ -82,3 +86,10 @@
 		return
 	visible_message(span_alertalien("[src] lays an egg!"))
 	new /obj/structure/alien/egg(loc)
+
+/mob/living/basic/alien/spawn_gibs(drop_bitflags=NONE)
+	if(drop_bitflags & DROP_BODYPARTS)
+		new /obj/effect/gibspawner/xeno(drop_location(), src)
+	else
+		new /obj/effect/gibspawner/xeno/bodypartless(drop_location(), src)
+

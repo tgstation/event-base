@@ -8,10 +8,10 @@
 		var/mob/living/silicon/player = src
 		designation = trim_left(player.designation + " " + player.job)
 
-	if(HAS_TRAIT(mind, DISPLAYS_JOB_IN_BINARY))
+	if(HAS_TRAIT(mind, TRAIT_DISPLAY_JOB_IN_BINARY))
 		designation = mind.assigned_role.title
 
-	if(isAI(src))
+	if(HAS_TRAIT(src, TRAIT_LOUD_BINARY))
 		// AIs are loud and ugly
 		spans |= SPAN_COMMAND
 
@@ -25,6 +25,12 @@
 	if(iscarbon(src))
 		namepart = GetVoice()
 
+	// AI in carbon body should still have its real name
+	var/obj/item/organ/brain/cybernetic/ai/brain = get_organ_slot(ORGAN_SLOT_BRAIN)
+	if(istype(brain))
+		namepart = brain.mainframe.name
+		designation = brain.mainframe.job
+
 	for(var/mob/M in GLOB.player_list)
 		if(M.binarycheck())
 			if(isAI(M))
@@ -32,9 +38,10 @@
 					M,
 					span_binarysay("\
 						Robotic Talk, \
-						<a href='?src=[REF(M)];track=[html_encode(namepart)]'>[span_name("[namepart] ([designation])")]</a> \
+						<a href='byond://?src=[REF(M)];track=[html_encode(namepart)]'>[span_name("[namepart] ([designation])")]</a> \
 						<span class='message'>[quoted_message]</span>\
 					"),
+					type = MESSAGE_TYPE_RADIO,
 					avoid_highlighting = src == M
 				)
 			else
@@ -44,6 +51,7 @@
 						Robotic Talk, \
 						[span_name("[namepart]")] <span class='message'>[quoted_message]</span>\
 					"),
+					type = MESSAGE_TYPE_RADIO,
 					avoid_highlighting = src == M
 				)
 
@@ -66,10 +74,14 @@
 					Robotic Talk, \
 					[span_name("[namepart]")] <span class='message'>[quoted_message]</span>\
 				"),
+				type = MESSAGE_TYPE_RADIO,
 				avoid_highlighting = src == M
 			)
 
 /mob/living/silicon/binarycheck()
+	var/area/our_area = get_area(src)
+	if(our_area.area_flags & BINARY_JAMMING)
+		return FALSE
 	return TRUE
 
 /mob/living/silicon/radio(message, list/message_mods = list(), list/spans, language)
@@ -79,10 +91,10 @@
 	if(message_mods[MODE_HEADSET])
 		if(radio)
 			radio.talk_into(src, message, , spans, language, message_mods)
-		return REDUCE_RANGE
+		return NOPASS
 	else if(message_mods[RADIO_EXTENSION] in GLOB.radiochannels)
 		if(radio)
 			radio.talk_into(src, message, message_mods[RADIO_EXTENSION], spans, language, message_mods)
-			return ITALICS | REDUCE_RANGE
+			return NOPASS
 
 	return FALSE

@@ -4,8 +4,15 @@
 //! Techweb names for new point types. Can be used to define specific point values for specific types of research (science, security, engineering, etc.)
 #define TECHWEB_POINT_TYPE_GENERIC "General Research"
 
+//!  Amount of points required to unlock nodes of corresponding tiers
+#define TECHWEB_TIER_1_POINTS 40
+#define TECHWEB_TIER_2_POINTS 80
+#define TECHWEB_TIER_3_POINTS 120
+#define TECHWEB_TIER_4_POINTS 160
+#define TECHWEB_TIER_5_POINTS 200
+
 //! Amount of points gained per second by a single R&D server, see: [research][code/controllers/subsystem/research.dm]
-#define TECHWEB_SINGLE_SERVER_INCOME 52.3
+#define TECHWEB_SINGLE_SERVER_INCOME 1
 
 //! Swab cell line types
 #define CELL_LINE_TABLE_SLUDGE "cell_line_sludge_table"
@@ -53,6 +60,8 @@
 //! General defines for vatgrowing
 /// Past how much growth can the other cell_lines affect a finished cell line negatively
 #define VATGROWING_DANGER_MINIMUM 30
+//Defines how many percent of vat grown atoms come out as hue shifted color mutants. A flat chance for now, maybe in the future dependant on the cell line.
+#define CYTO_SHINY_CHANCE 15
 
 #define SCIPAPER_COOPERATION_INDEX 1
 #define SCIPAPER_FUNDING_INDEX 2

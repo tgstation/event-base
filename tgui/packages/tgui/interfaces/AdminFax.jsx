@@ -1,6 +1,4 @@
 import { useState } from 'react';
-
-import { useBackend } from '../backend';
 import {
   Box,
   Button,
@@ -12,7 +10,9 @@ import {
   Section,
   TextArea,
   Tooltip,
-} from '../components';
+} from 'tgui-core/components';
+
+import { useBackend } from '../backend';
 import { Window } from '../layouts';
 
 export const AdminFax = (props) => {
@@ -92,8 +92,8 @@ export const FaxMainPanel = (props) => {
             mb="5px"
             placeholder="Paper name..."
             value={paperName}
-            width="100%"
-            onChange={(_, v) => setPaperName(v)}
+            fluid
+            onChange={setPaperName}
           />
           <Button
             icon="n"
@@ -119,8 +119,8 @@ export const FaxMainPanel = (props) => {
               placeholder="From who..."
               tooltip="Name what be user in fax history"
               value={fromWho}
-              width="100%"
-              onChange={(_, v) => setFromWho(v)}
+              fluid
+              onChange={setFromWho}
             />
           </Tooltip>
           <Button
@@ -141,9 +141,7 @@ export const FaxMainPanel = (props) => {
             placeholder="Your message here..."
             height="200px"
             value={rawText}
-            onChange={(e, value) => {
-              setRawText(value);
-            }}
+            onChange={setRawText}
           />
         </Box>
         <Divider />
@@ -192,7 +190,7 @@ export const FaxMainPanel = (props) => {
                   minValue={0}
                   maxValue={360}
                   animated={false}
-                  onChange={(_, v) => setStampAngle(v)}
+                  onChange={setStampAngle}
                 />
               </Box>
             </Box>

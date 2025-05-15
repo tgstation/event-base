@@ -1,7 +1,13 @@
-import { BooleanLike } from 'common/react';
+import {
+  Button,
+  Dropdown,
+  Input,
+  LabeledList,
+  Section,
+} from 'tgui-core/components';
+import { BooleanLike } from 'tgui-core/react';
 
 import { useBackend } from '../backend';
-import { Button, Dropdown, Input, LabeledList, Section } from '../components';
 import { Window } from '../layouts';
 
 type Data = {
@@ -43,8 +49,9 @@ export function AiVoiceChanger(props) {
           </LabeledList.Item>
           <LabeledList.Item label="Verb">
             <Input
+              expensive
               value={say_verb}
-              onChange={(e, value) =>
+              onChange={(value) =>
                 act('verb', {
                   verb: value,
                 })
@@ -62,8 +69,9 @@ export function AiVoiceChanger(props) {
           </LabeledList.Item>
           <LabeledList.Item label="Fake name">
             <Input
+              expensive
               value={name}
-              onChange={(e, value) =>
+              onChange={(value) =>
                 act('name', {
                   name: value,
                 })
