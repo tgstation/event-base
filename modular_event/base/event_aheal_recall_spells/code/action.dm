@@ -19,7 +19,7 @@
 	// custom lightning bolt for sound
 	var/turf/lightning_source = get_step(get_step(user, NORTH), NORTH)
 	lightning_source.Beam(user, icon_state="lightning[rand(1,12)]", time = 5)
-	playsound(get_turf(user), 'sound/magic/charge.ogg', 50, TRUE)
+	playsound(get_turf(user), 'sound/effects/magic/charge.ogg', 50, TRUE)
 	if (ishuman(user))
 		var/mob/living/carbon/human/human_target = user
 		human_target.electrocution_animation(LIGHTNING_BOLT_ELECTROCUTION_ANIMATION_LENGTH)
@@ -104,4 +104,4 @@
 	else
 		item_to_retrieve.forceMove(caster.drop_location())
 		item_to_retrieve.loc.visible_message(span_warning("[item_to_retrieve] suddenly appears!"))
-	playsound(get_turf(item_to_retrieve), 'sound/magic/summonitems_generic.ogg', 50, TRUE)
+	playsound(get_turf(item_to_retrieve), 'sound/effects/magic/summonitems_generic.ogg', 50, TRUE)
