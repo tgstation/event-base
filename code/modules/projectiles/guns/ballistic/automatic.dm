@@ -311,7 +311,7 @@
 		return
 	..()
 
-/obj/item/gun/ballistic/automatic/l6_saw/attackby(obj/item/A, mob/user, list/modifiers)
+/obj/item/gun/ballistic/automatic/l6_saw/attackby(obj/item/A, mob/user, list/modifiers, list/attack_modifiers)
 	if(!cover_open && istype(A, accepted_magazine_type))
 		balloon_alert(user, "open the cover!")
 		return
@@ -359,9 +359,8 @@
 	fire_delay = 2
 	burst_size = 1
 	actions_types = list()
-	spread = 10 //slightly inaccurate in burst fire mode, mostly important for long range shooting
 	fire_sound = 'sound/items/weapons/thermalpistol.ogg'
-	suppressor_x_offset = 8
+	suppressor_x_offset = 0
 
 	/// Determines how many shots we can make before the weapon needs to be maintained.
 	var/shots_before_degradation = 10
@@ -526,3 +525,10 @@
 /// proc to handle our detonation
 /obj/item/gun/ballistic/automatic/battle_rifle/proc/fucking_explodes_you()
 	explosion(src, devastation_range = 1, heavy_impact_range = 3, light_impact_range = 6, explosion_cause = src)
+//component for seclight attachment
+/obj/item/gun/ballistic/automatic/battle_rifle/add_seclight_point()
+	AddComponent(/datum/component/seclite_attachable, \
+		light_overlay_icon = 'icons/obj/weapons/guns/flashlights.dmi', \
+		light_overlay = "flight", \
+		overlay_x = 28, \
+		overlay_y = 12)

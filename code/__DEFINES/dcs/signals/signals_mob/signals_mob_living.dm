@@ -145,6 +145,8 @@
 #define COMSIG_LIVING_SLAP_MOB "living_slap_mob"
 ///from /obj/item/hand_item/slapper/attack(): (source=mob/living/slapper, mob/living/slapped)
 #define COMSIG_LIVING_SLAPPED "living_slapped"
+///from /obj/item/hand_item/attack(): (source=mob/living/attacker, mob/living/attacked)
+#define COMSIG_LIVING_HAND_ITEM_ATTACK "living_hand_item_attack"
 /// from /mob/living/*/UnarmedAttack(), before sending [COMSIG_LIVING_UNARMED_ATTACK]: (mob/living/source, atom/target, proximity, modifiers)
 /// The only reason this exists is so hulk can fire before Fists of the North Star.
 /// Note that this is called before [/mob/living/proc/can_unarmed_attack] is called, so be wary of that.
@@ -293,8 +295,10 @@
 	///cancel post eating
 	#define COMSIG_MOB_TERMINATE_EAT (1<<0)
 
-///From mob/living/carbon/proc/throw_mode_on and throw_mode_off
+///From mob/living/proc/throw_mode_on and throw_mode_off
 #define COMSIG_LIVING_THROW_MODE_TOGGLE "living_throw_mode_toggle"
+///from /atom/movable/screen/alert/give/proc/handle_transfer(): (taker, item)
+#define COMSIG_LIVING_ITEM_GIVEN "living_item_given"
 /// From mob/living/proc/on_fall
 #define COMSIG_LIVING_THUD "living_thud"
 ///From /datum/component/happiness()
@@ -325,5 +329,13 @@
 /// From /obj/item/book/bible/attack() : (mob/living/user, obj/item/book/bible/bible, bless_result)
 #define COMSIG_LIVING_BLESSED "living_blessed"
 
-/// From /mob/living/set_blood_type : (mob/living/user, datum/blood_type, update_cached_blood_dna_info)
-#define COMSIG_LIVING_CHANGED_BLOOD_TYPE "living_set_blood_type"
+/// From /datum/surgery_step/initiate() : (mob/living/user, mob/living/target, target_zone, obj/item/tool, datum/surgery/surgery, datum/surgery_step/step, list/modifiers)
+#define COMSIG_LIVING_INITIATE_SURGERY_STEP "living_initiate_surgery_step"
+#define COMSIG_LIVING_SURGERY_STEP_INITIATED_ON "living_surgery_step_initiated_on"
+	/// Index in modifiers containing the modifier to failure chance
+	#define FAIL_PROB_INDEX 1
+	/// Index in modifiers containing the modifer to surgery speed
+	#define SPEED_MOD_INDEX 2
+
+///from mob/living/befriend()
+#define COMSIG_LIVING_MADE_NEW_FRIEND "made_new_friend"
