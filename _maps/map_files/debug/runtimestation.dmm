@@ -2,23 +2,11 @@
 "aa" = (
 /turf/open/space/basic,
 /area/space)
-"ab" = (
-/obj/structure/lattice,
-/turf/open/space,
-/area/space/nearstation)
-"ac" = (
-/turf/open/space,
-/area/space/nearstation)
 "ad" = (
 /obj/effect/turf_decal/stripes/line,
 /obj/structure/transit_tube/horizontal,
 /turf/open/floor/iron,
 /area/station/engineering/gravity_generator)
-"ae" = (
-/obj/structure/lattice,
-/obj/structure/grille,
-/turf/open/space,
-/area/space/nearstation)
 "af" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
@@ -46,15 +34,6 @@
 /obj/machinery/atmospherics/components/tank/air,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
-"an" = (
-/obj/structure/lattice/catwalk,
-/turf/open/space,
-/area/space/nearstation)
-"ao" = (
-/obj/structure/lattice/catwalk,
-/obj/structure/cable,
-/turf/open/space,
-/area/space/nearstation)
 "ap" = (
 /obj/structure/closet/secure_closet/engineering_electrical{
 	locked = 0
@@ -592,6 +571,10 @@
 /obj/machinery/door/airlock,
 /turf/open/floor/iron,
 /area/station/commons/storage/primary)
+"dI" = (
+/obj/effect/landmark/start,
+/turf/open/floor/iron,
+/area/station/commons/storage/primary)
 "dJ" = (
 /turf/open/floor/iron,
 /area/station/commons/storage/primary)
@@ -822,6 +805,10 @@
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
+"eU" = (
+/obj/structure/lattice,
+/turf/open/space/basic,
+/area/space/nearstation)
 "eV" = (
 /obj/machinery/light/directional/west,
 /turf/open/floor/iron,
@@ -872,9 +859,6 @@
 	width = 28
 	},
 /turf/open/space/basic,
-/area/space)
-"fg" = (
-/turf/open/space,
 /area/space)
 "fh" = (
 /obj/effect/spawner/structure/window/reinforced,
@@ -1210,13 +1194,6 @@
 /obj/machinery/vending/subtype_vendor,
 /turf/open/floor/iron,
 /area/station/commons/storage/primary)
-"km" = (
-/obj/machinery/navbeacon{
-	codes_txt = "patrol;next_patrol=1-Southwest";
-	location = "4-Southeast"
-	},
-/turf/open/floor/iron,
-/area/station/commons/storage/primary)
 "kn" = (
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron,
@@ -1249,6 +1226,11 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/engineering/main)
+"my" = (
+/obj/structure/lattice,
+/obj/structure/grille,
+/turf/open/space/basic,
+/area/space/nearstation)
 "mC" = (
 /turf/open/floor/iron/dark,
 /area/station/medical/medbay)
@@ -1267,6 +1249,10 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/catwalk_floor,
 /area/station/cargo/storage)
+"nm" = (
+/obj/structure/lattice/catwalk,
+/turf/open/space/basic,
+/area/space/nearstation)
 "nq" = (
 /obj/effect/turf_decal/stripes/corner{
 	dir = 8
@@ -1330,6 +1316,13 @@
 	},
 /turf/open/floor/iron,
 /area/station/cargo/storage)
+"pY" = (
+/obj/machinery/navbeacon{
+	codes_txt = "patrol;next_patrol=1-Southwest";
+	location = "4-Southeast"
+	},
+/turf/open/floor/iron,
+/area/station/commons/storage/primary)
 "pZ" = (
 /obj/machinery/light/directional/north,
 /obj/machinery/camera/directional/north,
@@ -1387,6 +1380,14 @@
 "qQ" = (
 /turf/open/floor/engine,
 /area/station/cargo/miningoffice)
+"qR" = (
+/obj/effect/landmark/start,
+/obj/machinery/navbeacon{
+	codes_txt = "delivery;dir=4";
+	location = "Center"
+	},
+/turf/open/floor/iron,
+/area/station/commons/storage/primary)
 "rh" = (
 /obj/machinery/door/airlock,
 /obj/structure/cable,
@@ -1456,6 +1457,13 @@
 	},
 /turf/open/space/basic,
 /area/space)
+"tP" = (
+/obj/structure/lattice,
+/obj/machinery/atmospherics/components/unary/passive_vent/layer2{
+	dir = 8
+	},
+/turf/open/space/basic,
+/area/space/nearstation)
 "tQ" = (
 /obj/machinery/door/airlock/public/glass,
 /obj/structure/cable,
@@ -1467,14 +1475,6 @@
 /obj/structure/bot,
 /turf/open/floor/iron/dark,
 /area/station/science/explab)
-"tX" = (
-/obj/effect/landmark/start,
-/obj/machinery/navbeacon{
-	codes_txt = "delivery;dir=4";
-	location = "Center"
-	},
-/turf/open/floor/iron,
-/area/station/commons/storage/primary)
 "uf" = (
 /obj/structure/fans/tiny/invisible,
 /obj/effect/turf_decal/stripes/line{
@@ -1630,6 +1630,11 @@
 "wU" = (
 /turf/closed/wall/r_wall,
 /area/station/science/explab)
+"xo" = (
+/obj/structure/lattice/catwalk,
+/obj/structure/cable,
+/turf/open/space/basic,
+/area/space/nearstation)
 "xq" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 6
@@ -1664,6 +1669,12 @@
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/cargo/miningoffice)
+"yl" = (
+/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
+	dir = 4
+	},
+/turf/open/floor/iron,
+/area/station/commons/storage/primary)
 "yA" = (
 /obj/docking_port/stationary/laborcamp_home{
 	dir = 8
@@ -2138,6 +2149,9 @@
 	},
 /turf/open/floor/iron,
 /area/station/engineering/gravity_generator)
+"Lp" = (
+/turf/open/space/basic,
+/area/space/nearstation)
 "Lq" = (
 /obj/effect/turf_decal/stripes/full,
 /obj/machinery/door/airlock/external/glass/ruin{
@@ -2176,10 +2190,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/station/engineering/main)
-"Md" = (
-/obj/effect/landmark/start,
-/turf/open/floor/iron,
-/area/station/commons/storage/primary)
 "Mg" = (
 /obj/machinery/door/airlock/public/glass,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -2523,13 +2533,6 @@
 /obj/machinery/netpod,
 /turf/open/floor/iron,
 /area/station/cargo/bitrunning/den)
-"TT" = (
-/obj/structure/lattice,
-/obj/machinery/atmospherics/components/unary/passive_vent/layer2{
-	dir = 8
-	},
-/turf/open/space,
-/area/space/nearstation)
 "TY" = (
 /obj/machinery/button/door/directional/south{
 	id = "light_control";
@@ -2578,10 +2581,6 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
-"Wl" = (
-/obj/effect/landmark/blobstart,
-/turf/open/floor/iron,
-/area/station/commons/storage/primary)
 "WK" = (
 /obj/structure/money_bot,
 /turf/open/floor/iron/dark,
@@ -2666,6 +2665,10 @@
 /obj/machinery/light/directional/north,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
+"XZ" = (
+/obj/effect/landmark/blobstart,
+/turf/open/floor/iron,
+/area/station/commons/storage/primary)
 "Yd" = (
 /turf/open/floor/iron,
 /area/station/cargo/bitrunning/den)
@@ -2680,12 +2683,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/science/explab)
-"Ys" = (
-/obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
-	dir = 4
-	},
-/turf/open/floor/iron,
-/area/station/commons/storage/primary)
 "Yt" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden,
 /obj/machinery/meter,
@@ -6650,14 +6647,14 @@ aa
 aa
 aa
 aa
-ae
-ab
-ab
-ab
-ab
-TT
-ab
-ab
+my
+eU
+eU
+eU
+eU
+tP
+eU
+eU
 bu
 Fd
 ce
@@ -6682,7 +6679,7 @@ dZ
 cN
 Tt
 bL
-fg
+aa
 aa
 aa
 aa
@@ -6742,14 +6739,14 @@ aa
 aa
 aa
 aa
-ae
-ab
+my
+eU
 yN
 yN
 yN
 yN
 yN
-ab
+eU
 bv
 bI
 cf
@@ -6774,7 +6771,7 @@ dL
 cN
 dd
 bL
-fg
+aa
 aa
 aa
 aa
@@ -6834,14 +6831,14 @@ aa
 aa
 aa
 aa
-ae
-ab
+my
+eU
 yN
-an
+nm
 yN
-an
+nm
 yN
-ab
+eU
 bv
 BG
 cf
@@ -6866,7 +6863,7 @@ dL
 cN
 Tt
 bL
-fg
+aa
 aa
 aa
 aa
@@ -6926,14 +6923,14 @@ aa
 aa
 aa
 aa
-ae
-ab
+my
+eU
 yN
-an
-ao
-an
+nm
+xo
+nm
 yN
-ab
+eU
 bv
 bJ
 cf
@@ -6958,7 +6955,7 @@ dL
 cN
 Tt
 Rb
-fg
+aa
 aa
 aa
 aa
@@ -7018,14 +7015,14 @@ aa
 aa
 aa
 aa
-ae
-ac
-ab
-ab
-ao
-ab
-ab
-ac
+my
+Lp
+eU
+eU
+xo
+eU
+eU
+Lp
 bv
 bK
 cf
@@ -7050,7 +7047,7 @@ dL
 cN
 Tt
 Rb
-fg
+aa
 aa
 aa
 bs
@@ -7110,14 +7107,14 @@ aa
 aa
 aa
 aa
-ae
-ac
-ac
+my
+Lp
+Lp
 aj
 Kg
 aj
-ac
-ac
+Lp
+Lp
 bv
 aK
 cf
@@ -7142,7 +7139,7 @@ cZ
 cN
 Tt
 Rb
-fg
+aa
 aa
 aa
 aa
@@ -7208,8 +7205,8 @@ aj
 aj
 vS
 aj
-ac
-ac
+Lp
+Lp
 bu
 bM
 cg
@@ -7592,7 +7589,7 @@ dq
 dJ
 dJ
 dJ
-Md
+dI
 dJ
 dJ
 dJ
@@ -7684,7 +7681,7 @@ dr
 dJ
 dJ
 dJ
-Md
+dI
 dJ
 dJ
 dJ
@@ -7776,7 +7773,7 @@ ds
 dJ
 dJ
 dJ
-Md
+dI
 dJ
 dJ
 dJ
@@ -7868,9 +7865,9 @@ dt
 dJ
 dD
 dJ
-tX
+qR
 dJ
-Wl
+XZ
 dJ
 dJ
 dJ
@@ -7960,7 +7957,7 @@ du
 dJ
 dJ
 dJ
-Md
+dI
 dJ
 dJ
 dJ
@@ -8052,7 +8049,7 @@ dv
 dJ
 dJ
 dJ
-Md
+dI
 dJ
 dJ
 dJ
@@ -8144,7 +8141,7 @@ dw
 dJ
 dJ
 dJ
-Md
+dI
 dJ
 dJ
 dJ
@@ -8236,11 +8233,11 @@ dJ
 JJ
 dJ
 dJ
-Ys
+yl
 dJ
 dJ
 dJ
-km
+pY
 dJ
 dJ
 cS
@@ -8766,9 +8763,9 @@ aa
 aa
 aa
 aa
-fg
-fg
-fg
+aa
+aa
+aa
 aI
 af
 aX
