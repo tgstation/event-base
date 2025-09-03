@@ -1,6 +1,6 @@
 /datum/controller/subsystem/dynamic/New()
 	. = ..()
-	GLOB.dynamic_forced_extended = TRUE
+	force_extended()
 
-/datum/controller/subsystem/dynamic/send_intercept()
+/datum/communciations_controller/send_roundstart_report()
 	return

@@ -44,7 +44,7 @@
 	var/list/effects = list()
 	/// Special locs that can mess with derez'ing holo spawned objects
 	var/static/list/special_locs = list(
-		/obj/item/clothing/head/mob_holder,
+		/obj/item/mob_holder,
 	)
 
 /obj/machinery/computer/ragecage_signup/Initialize(mapload, obj/item/circuitboard/C)
