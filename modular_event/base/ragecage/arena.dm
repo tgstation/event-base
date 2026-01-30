@@ -1,3 +1,5 @@
+#define COOLDOWN_ARENA_SIGNUP_REQUEST "arena_signup_request"
+
 /// Plant these for first and second fighters or groups, 3 of each should be present
 /obj/effect/landmark/ragecage
 	name = "ragecage first fighter spawn"

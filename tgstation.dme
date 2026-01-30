@@ -6854,6 +6854,7 @@
 #include "modular_event\base\vending_safety.dm"
 #include "modular_event\base\event_aheal_recall_spells\code\action.dm"
 #include "modular_event\base\event_aheal_recall_spells\code\living.dm"
+#include "modular_event\base\ragecage\_defines.dm"
 #include "modular_event\base\ragecage\arena.dm"
 #include "modular_event\base\ragecage\duel.dm"
 #include "modular_event\base\ragecage\templates.dm"
